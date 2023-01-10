@@ -1,27 +1,42 @@
-import { CART_ADD_ITEM } from '../constants/cartConstants'
+import {
+    CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
+    CART_SAVE_SHIPPING_ADDRESS,
 
-export const cartReducer = (state={cartItems:[]}, action) =>{
-    switch(action.type){
-        case CART_ADD_ITEM:
-            const item = action.payload
-            const existItem = state.cartItems.find(x => x.product === item.product)
+    CART_SAVE_PAYMENT_METHOD,
 
-            if(existItem){
-                return{
-                    ...state,
-                    cartItems: state.cartItems.map(x=>
-                        x.product === existItem.product ? item : x)
-                }
+    CART_CLEAR_ITEMS,
+} from '../constants/cartConstants'
 
-            }else{
-                return {
-                    ...state,
-                    cartItems:[...state.cartItems, item]
-                }
-            }
+export const cartReducer = (state = { cartItems: [] }, action) => {
+  switch (action.type) {
+    case CART_ADD_ITEM:
+      const item = action.payload;
+      const existItem = state.cartItems.find((x) => x.product === item.product);
 
+      if (existItem) {
+        return {
+          ...state,
+          cartItems: state.cartItems.map((x) =>
+            x.product === existItem.product ? item : x
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          cartItems: [...state.cartItems, item],
+        };
+      }
 
-        default:
-            return state
-    }
-}
+    case CART_REMOVE_ITEM:
+      return {
+        ...state,
+        // filter is going to return an array where the productId(x.product) does not match 
+        // the action.payload(productId)
+        cartItems: state.cartItems.filter((x) => x.product !== action.payload),
+      };
+
+    default:
+      return state;
+  }
+};
