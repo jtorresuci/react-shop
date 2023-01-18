@@ -32,7 +32,7 @@ function LoginScreen(location, history) {
 
   return (
     <FormContainer>
-    {error && <Messsage variant={'danger'}>{error}</Messsage> }
+    {error && <Messsage variant={'danger'}>{error }</Messsage> }
     {loading && <Loader></Loader>}
       <h1>Sign In</h1>
       <Form onSubmit={submitHandler}>
